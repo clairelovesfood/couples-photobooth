@@ -26,6 +26,29 @@ const LAYOUTS = [
 
 const STICKERS = ["❤️", "💕", "✨", "🥰", "💋", "🌸", "⭐", "🦋", "🌙", "💫", "🎀", "🍵"];
 
+// Container style: uses paddingBottom trick instead of aspectRatio for html2canvas
+const boxStyle = (extras = {}) => ({
+  position: "relative",
+  width: "100%",
+  paddingBottom: "100%",
+  borderRadius: "4px",
+  overflow: "hidden",
+  ...extras,
+});
+
+// Image style: absolutely positioned to fill the container
+const absImgStyle = (filterCss, extras = {}) => ({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
+  filter: filterCss,
+  display: "block",
+  ...extras,
+});
+
 export default function App() {
   const [photoA, setPhotoA] = useState(null);
   const [photoB, setPhotoB] = useState(null);
@@ -84,24 +107,21 @@ export default function App() {
   const currentFilter = FILTERS[filter];
   const currentLayout = LAYOUTS[layout];
   const hasPhotos = photoA && photoB;
-
-  const imgStyle = () => ({
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    filter: currentFilter.css,
-    display: "block",
-  });
+  const filterCss = currentFilter.css;
 
   const renderPhotos = () => {
     if (currentLayout.id === "side") {
       return (
         <div style={{ display: "flex", gap: "6px" }}>
-          <div style={{ flex: 1, aspectRatio: "1", borderRadius: "4px", overflow: "hidden" }}>
-            <img src={photoA} alt="Person 1" style={imgStyle()} />
+          <div style={{ flex: 1 }}>
+            <div style={boxStyle()}>
+              <img src={photoA} alt="Person 1" style={absImgStyle(filterCss)} />
+            </div>
           </div>
-          <div style={{ flex: 1, aspectRatio: "1", borderRadius: "4px", overflow: "hidden" }}>
-            <img src={photoB} alt="Person 2" style={imgStyle()} />
+          <div style={{ flex: 1 }}>
+            <div style={boxStyle()}>
+              <img src={photoB} alt="Person 2" style={absImgStyle(filterCss)} />
+            </div>
           </div>
         </div>
       );
@@ -109,45 +129,58 @@ export default function App() {
     if (currentLayout.id === "grid") {
       return (
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px" }}>
-          <div style={{ aspectRatio: "1", borderRadius: "4px", overflow: "hidden" }}>
-            <img src={photoA} alt="" style={imgStyle()} />
+          <div style={boxStyle()}>
+            <img src={photoA} alt="" style={absImgStyle(filterCss)} />
           </div>
-          <div style={{ aspectRatio: "1", borderRadius: "4px", overflow: "hidden" }}>
-            <img src={photoB} alt="" style={imgStyle()} />
+          <div style={boxStyle()}>
+            <img src={photoB} alt="" style={absImgStyle(filterCss)} />
           </div>
-          <div style={{ aspectRatio: "1", borderRadius: "4px", overflow: "hidden" }}>
-            <img src={photoB} alt="" style={{ ...imgStyle(), transform: "scaleX(-1)" }} />
+          <div style={boxStyle()}>
+            <img src={photoB} alt="" style={absImgStyle(filterCss, { transform: "scaleX(-1)" })} />
           </div>
-          <div style={{ aspectRatio: "1", borderRadius: "4px", overflow: "hidden" }}>
-            <img src={photoA} alt="" style={{ ...imgStyle(), transform: "scaleX(-1)" }} />
+          <div style={boxStyle()}>
+            <img src={photoA} alt="" style={absImgStyle(filterCss, { transform: "scaleX(-1)" })} />
           </div>
         </div>
       );
     }
+    // strip (3 rows)
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
         <div style={{ display: "flex", gap: "6px" }}>
-          <div style={{ flex: 1, aspectRatio: "1", borderRadius: "4px", overflow: "hidden" }}>
-            <img src={photoA} alt="" style={imgStyle()} />
+          <div style={{ flex: 1 }}>
+            <div style={boxStyle()}>
+              <img src={photoA} alt="" style={absImgStyle(filterCss)} />
+            </div>
           </div>
-          <div style={{ flex: 1, aspectRatio: "1", borderRadius: "4px", overflow: "hidden" }}>
-            <img src={photoB} alt="" style={imgStyle()} />
-          </div>
-        </div>
-        <div style={{ display: "flex", gap: "6px" }}>
-          <div style={{ flex: 1, aspectRatio: "1", borderRadius: "4px", overflow: "hidden" }}>
-            <img src={photoB} alt="" style={{ ...imgStyle(), transform: "scaleX(-1)" }} />
-          </div>
-          <div style={{ flex: 1, aspectRatio: "1", borderRadius: "4px", overflow: "hidden" }}>
-            <img src={photoA} alt="" style={{ ...imgStyle(), transform: "scaleX(-1)" }} />
+          <div style={{ flex: 1 }}>
+            <div style={boxStyle()}>
+              <img src={photoB} alt="" style={absImgStyle(filterCss)} />
+            </div>
           </div>
         </div>
         <div style={{ display: "flex", gap: "6px" }}>
-          <div style={{ flex: 1, aspectRatio: "1", borderRadius: "4px", overflow: "hidden" }}>
-            <img src={photoA} alt="" style={imgStyle()} />
+          <div style={{ flex: 1 }}>
+            <div style={boxStyle()}>
+              <img src={photoB} alt="" style={absImgStyle(filterCss, { transform: "scaleX(-1)" })} />
+            </div>
           </div>
-          <div style={{ flex: 1, aspectRatio: "1", borderRadius: "4px", overflow: "hidden" }}>
-            <img src={photoB} alt="" style={imgStyle()} />
+          <div style={{ flex: 1 }}>
+            <div style={boxStyle()}>
+              <img src={photoA} alt="" style={absImgStyle(filterCss, { transform: "scaleX(-1)" })} />
+            </div>
+          </div>
+        </div>
+        <div style={{ display: "flex", gap: "6px" }}>
+          <div style={{ flex: 1 }}>
+            <div style={boxStyle()}>
+              <img src={photoA} alt="" style={absImgStyle(filterCss)} />
+            </div>
+          </div>
+          <div style={{ flex: 1 }}>
+            <div style={boxStyle()}>
+              <img src={photoB} alt="" style={absImgStyle(filterCss)} />
+            </div>
           </div>
         </div>
       </div>
