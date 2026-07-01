@@ -27,4 +27,4 @@ npm run deploy
 ```
 
 4. In GitHub repo → Settings → Pages → set source to `gh-pages` branch
-5. Your site will be live at `https://YOUR_USERNAME.github.io/couples-photobooth/`
+5. Your site will be live at `https://github.com/clairelovesfood/couples-photobooth`
