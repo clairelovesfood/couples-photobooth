@@ -1,4 +1,4 @@
-# Together — Couples Photobooth 📸
+# Couples Photobooth 📸
 
 A photobooth for couples who are apart. Upload a photo each, customize with filters, frames, stickers, and captions, then save your strip.
 
